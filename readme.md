@@ -35,30 +35,32 @@ This project will be implemented with the following technologies:
 
 ### Implementation Timeline
 
-**Day 1**: Do Canvas Tutorial on YouTube
+**Day 1**: Do Canvas Tutorial, review Asteroids project, layout file structure
 
 Goals for the day:
 - Be able to animate and draw html elements on the page
+- Understand solution for Asteroids project with moving objects
+- Create file structure for project
 
-**Day 2**: Draw the board and get the ball to move
+**Day 2**: Draw and style the board and get the ball to move
 
 Goals for the day:
 - Choose color scheme and fonts for page
 - Draw board, paddles, ball
 - Get ball to move
 
-**Day 3**: Get ball to bounce (boundaries), user controls, start AI
+**Day 3**: Get ball to bounce (boundaries), user controls, advanced styling
 
 Goals for the day:
 - Get ball to move properly when it hits a paddle
 - Get paddles to move on keypress
-- Get computer paddle to move by itself
+- Add 1-2 unique styling features that make this game unique
 
 
-**Day 4**: Flesh out AI, implement scoring
+**Day 4**: Create AI, implement scoring
 
 Goals for the day:
-- Make AI competitive
+- Make an AI that's competitive
 - Implement score count and win message upon reaching the winning score
 
 ### Bonus features
