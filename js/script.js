@@ -83,7 +83,7 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, innerWidth, innerHeight);
 
-  circleArray.forEach(circle => circle.animate());
+  // circleArray.forEach(circle => circle.animate());
 }
 
 animate();
