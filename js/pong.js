@@ -18,5 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const g = new Game(ctx, canvas);
+  g.bindKeys();
   g.animate();
 });
