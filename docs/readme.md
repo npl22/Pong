@@ -23,7 +23,7 @@ In addition, this project will include:
 This app will be very simple, it will just be a single screen, mostly rendered
 by canvas.
 
-![wireframes](images/wireframe.jpeg)
+![wireframes](wireframe.png)
 
 ### Architecture and Technologies
 
