@@ -84,8 +84,9 @@ class Game {
     this.paddleWidth = 70;
     this.paddleHeight = 225;
     this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](10, 200);
+    this.paddle1.yVel = 8;
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 80, 200);
-    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 30, 5, 5);
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 30, 10, 10);
 
     this.animate = this.animate.bind(this);
   }
@@ -94,16 +95,16 @@ class Game {
     window.addEventListener('keydown', e => {
       switch(e.key) {
         case("ArrowDown"):
-          this.paddle2.y += 50;
+          this.paddle2.y += 80;
           break;
         case("ArrowUp"):
-          this.paddle2.y -= 50;
+          this.paddle2.y -= 80;
           break;
         case("s"):
-          this.paddle1.y += 50;
+          this.paddle1.y += 80;
           break;
         case("w"):
-          this.paddle1.y -= 50;
+          this.paddle1.y -= 80;
           break;
         default:
           return;
@@ -170,6 +171,18 @@ class Game {
 
     this.ball.x += this.ball.xVel;
     this.ball.y += this.ball.yVel;
+
+    // AI
+    switch(true) {
+      // case (this.ball.y === this.paddle1.y - this.paddleWidth/2):
+      //   break;
+      case (this.ball.y > this.paddle1.y + this.paddleHeight/2):
+        this.paddle1.y += this.paddle1.yVel;
+        break;
+      case (this.ball.y < this.paddle1.y + this.paddleHeight/2):
+        this.paddle1.y -= this.paddle1.yVel;
+        break;
+    }
 
     this.checkCollisions();
   }
