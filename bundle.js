@@ -71,17 +71,18 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(2);
+
+
 class Game {
   constructor(context, canvas) {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1X = 10;
-    this.paddle2X = this.canvas.width - 80
-    this.paddle1Y = 300;
-    this.paddle2Y = 100;
     this.paddleWidth = 70;
     this.paddleHeight = 225;
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](10, 200);
+    this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 80, 200);
     this.x = 300;
     this.y = 300;
     this.dx = 5;
@@ -93,19 +94,18 @@ class Game {
 
   bindKeys() {
     window.addEventListener('keydown', e => {
-      console.log("Paddle2Y: ", this.paddle2Y);
       switch(e.key) {
         case("ArrowDown"):
-          this.paddle2Y += 50;
+          this.paddle2.y += 50;
           break;
         case("ArrowUp"):
-          this.paddle2Y -= 50;
+          this.paddle2.y -= 50;
           break;
         case("s"):
-          this.paddle1Y += 50;
+          this.paddle1.y += 50;
           break;
         case("w"):
-          this.paddle1Y -= 50;
+          this.paddle1.y -= 50;
           break;
         default:
           return;
@@ -120,9 +120,9 @@ class Game {
     this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.c.fillStyle = 'white';
 
-    this.c.fillRect(this.paddle1X, this.paddle1Y,
+    this.c.fillRect(this.paddle1.x, this.paddle1.y,
       this.paddleWidth, this.paddleHeight);
-    this.c.fillRect(this.paddle2X, this.paddle2Y,
+    this.c.fillRect(this.paddle2.x, this.paddle2.y,
       this.paddleWidth, this.paddleHeight);
 
     this.c.beginPath();
@@ -132,24 +132,39 @@ class Game {
     this.x += this.dx;
     this.y += this.dy;
 
-    if (this.x + this.radius >= this.paddle2X) {
-      console.log("ball near paddle");
-      if (this.y <= this.paddle2Y + this.paddleHeight
-        && this.y >= this.paddle2Y) {
-        console.log("ball in correct place");
+    // Right Paddle
+    if (this.x + this.radius >= this.paddle2.x) {
+
+      if (this.y <= this.paddle2.y + this.paddleHeight
+        && this.y >= this.paddle2.y) {
         this.dx = -this.dx;
+
+        if (this.y <= this.paddle2.y + this.paddleHeight/2
+          && this.y >= this.paddle2.y) {
+            this.dy = -this.dy;
+        }
       }
     }
 
-    if (this.x + this.radius < this.paddle1X + this.paddleWidth*2) {
-      console.log("ball near paddle");
-      if (this.y <= this.paddle1Y + this.paddleHeight
-        && this.y >= this.paddle1Y) {
-        console.log("ball in correct place");
+    // Left Paddle
+    if (this.x + this.radius < this.paddle1.x + this.paddleWidth*2) {
+
+      if (this.y <= this.paddle1.y + this.paddleHeight
+        && this.y >= this.paddle1.y) {
         this.dx = -this.dx;
+
+        if (this.y <= this.paddle1.y + this.paddleHeight/2
+          && this.y >= this.paddle1.y) {
+            this.dy = -this.dy;
+        }
       }
     }
 
+    // Changing direction when hitting paddle
+
+
+
+    // Bouncing off walls
     if (this.y + this.radius >= window.innerHeight
         || this.y - this.radius <= 0) {
       this.dy = -this.dy;
@@ -190,6 +205,21 @@ document.addEventListener('DOMContentLoaded', () => {
   g.bindKeys();
   g.animate();
 });
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Paddle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Paddle);
 
 
 /***/ })
