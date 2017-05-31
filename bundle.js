@@ -72,6 +72,8 @@
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ball_js__ = __webpack_require__(3);
+
 
 
 class Game {
@@ -83,11 +85,7 @@ class Game {
     this.paddleHeight = 225;
     this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](10, 200);
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 80, 200);
-    this.x = 300;
-    this.y = 300;
-    this.dx = 5;
-    this.dy = 5;
-    this.radius = 30;
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 30, 5, 5);
 
     this.animate = this.animate.bind(this);
   }
@@ -126,36 +124,36 @@ class Game {
       this.paddleWidth, this.paddleHeight);
 
     this.c.beginPath();
-    this.c.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+    this.c.arc(this.ball.x, this.ball.y, this.ball.radius, 0, 2*Math.PI, false);
     this.c.fill();
 
-    this.x += this.dx;
-    this.y += this.dy;
+    this.ball.x += this.ball.xVel;
+    this.ball.y += this.ball.yVel;
 
     // Right Paddle
-    if (this.x + this.radius >= this.paddle2.x) {
+    if (this.ball.x + this.ball.radius >= this.paddle2.x) {
 
-      if (this.y <= this.paddle2.y + this.paddleHeight
-        && this.y >= this.paddle2.y) {
-        this.dx = -this.dx;
+      if (this.ball.y <= this.paddle2.y + this.paddleHeight
+        && this.ball.y >= this.paddle2.y) {
+        this.ball.xVel = -this.ball.xVel;
 
-        if (this.y <= this.paddle2.y + this.paddleHeight/2
-          && this.y >= this.paddle2.y) {
-            this.dy = -this.dy;
+        if (this.ball.y <= this.paddle2.y + this.paddleHeight/2
+          && this.ball.y >= this.paddle2.y) {
+            this.ball.yVel = -this.ball.yVel;
         }
       }
     }
 
     // Left Paddle
-    if (this.x + this.radius < this.paddle1.x + this.paddleWidth*2) {
+    if (this.ball.x + this.ball.radius < this.paddle1.x + this.paddleWidth*2) {
 
-      if (this.y <= this.paddle1.y + this.paddleHeight
-        && this.y >= this.paddle1.y) {
-        this.dx = -this.dx;
+      if (this.ball.y <= this.paddle1.y + this.paddleHeight
+        && this.ball.y >= this.paddle1.y) {
+        this.ball.xVel = -this.ball.xVel;
 
-        if (this.y <= this.paddle1.y + this.paddleHeight/2
-          && this.y >= this.paddle1.y) {
-            this.dy = -this.dy;
+        if (this.ball.y <= this.paddle1.y + this.paddleHeight/2
+          && this.ball.y >= this.paddle1.y) {
+            this.ball.yVel = -this.ball.yVel;
         }
       }
     }
@@ -165,9 +163,9 @@ class Game {
 
 
     // Bouncing off walls
-    if (this.y + this.radius >= window.innerHeight
-        || this.y - this.radius <= 0) {
-      this.dy = -this.dy;
+    if (this.ball.y + this.ball.radius >= window.innerHeight
+        || this.ball.y - this.ball.radius <= 0) {
+      this.ball.yVel = -this.ball.yVel;
     }
   }
 }
@@ -220,6 +218,24 @@ class Paddle {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Paddle);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Ball {
+  constructor(x, y, radius, xVel, yVel) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.xVel = xVel;
+    this.yVel = yVel;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Ball);
 
 
 /***/ })
