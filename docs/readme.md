@@ -10,13 +10,9 @@ opponents paddle.
 
 ### Functionality & MVP  
 
-With this Conway's Game of Life simulator, users will be able to:
-
 - [ ] Start the game
 - [ ] Play to a score of 3
 - [ ] Play against a computer
-
-In addition, this project will include:
 
 ### Wireframes
 

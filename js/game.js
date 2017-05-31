@@ -36,11 +36,7 @@ class Game {
     });
   }
 
-  animate() {
-    window.requestAnimationFrame(this.animate);
-    this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.c.fillStyle = 'black';
-    this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  drawShapes() {
     this.c.fillStyle = 'white';
 
     this.c.fillRect(this.paddle1.x, this.paddle1.y,
@@ -51,10 +47,9 @@ class Game {
     this.c.beginPath();
     this.c.arc(this.ball.x, this.ball.y, this.ball.radius, 0, 2*Math.PI, false);
     this.c.fill();
+  }
 
-    this.ball.x += this.ball.xVel;
-    this.ball.y += this.ball.yVel;
-
+  checkCollisions() {
     // Right Paddle
     if (this.ball.x + this.ball.radius >= this.paddle2.x) {
 
@@ -83,16 +78,27 @@ class Game {
       }
     }
 
-    // Changing direction when hitting paddle
-
-
-
     // Bouncing off walls
     if (this.ball.y + this.ball.radius >= window.innerHeight
         || this.ball.y - this.ball.radius <= 0) {
       this.ball.yVel = -this.ball.yVel;
     }
   }
+
+  animate() {
+    window.requestAnimationFrame(this.animate);
+    this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.c.fillStyle = 'black';
+    this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.drawShapes();
+
+    this.ball.x += this.ball.xVel;
+    this.ball.y += this.ball.yVel;
+
+    this.checkCollisions();
+  }
+
 }
 
 export default Game;
