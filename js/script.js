@@ -30,8 +30,14 @@ const c = canvas.getContext('2d');
 //   c.stroke();
 // }
 
+let mouse = {
+  x: undefined,
+  y: undefined
+};
+
 window.addEventListener('mousemove', e =>{
-  console.log(e);
+  mouse.x = e.x;
+  mouse.y = e.y;
 });
 
 function Circle(x, y, dx, dy, r) {
@@ -60,20 +66,28 @@ function Circle(x, y, dx, dy, r) {
     this.x += this.dx;
     this.y += this.dy;
 
+    // interactivity - do something if the circle is near the mouse
+    if (mouse.x - this.x < 50 && mouse.x - this.x > -50
+      && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+      if (this.r < 40) {
+        this.r += 1;
+      }
+    }
+    else if (this.r > 2) {
+      this.r -= 1;
+    }
+
     this.draw();
   };
 }
 
-
-
-
 const circleArray = [];
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 300; i++) {
   let r = 30;
   let x = Math.random() * (innerWidth - 2*r) + r;
   let y = Math.random() * (innerHeight - 2*r) + r;
-  let dx = (Math.random() - 0.5) * 10;
-  let dy = (Math.random() - 0.5) * 10;
+  let dx = (Math.random() - 0.5) * 6;
+  let dy = (Math.random() - 0.5) * 6;
 
   let circle = new Circle(x, y, dx, dy , r );
   circleArray.push(circle);
@@ -83,7 +97,7 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, innerWidth, innerHeight);
 
-  // circleArray.forEach(circle => circle.animate());
+  circleArray.forEach(circle => circle.animate());
 }
 
 animate();
