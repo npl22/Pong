@@ -73,6 +73,8 @@
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ball_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__players_js__ = __webpack_require__(4);
+
 
 
 
@@ -101,12 +103,6 @@ class Game {
         case("ArrowUp"):
           this.keyDown = "ArrowUp";
           break;
-        // case("s"):
-        //   this.paddle1.y += 80;
-        //   break;
-        // case("w"):
-        //   this.paddle1.y -= 80;
-        //   break;
         default:
           return;
       }
@@ -169,33 +165,8 @@ class Game {
     this.ball.x += this.ball.xVel;
     this.ball.y += this.ball.yVel;
 
-    // Player
-    switch(this.keyDown) {
-      case("ArrowDown"):
-        if (this.paddle2.y + this.paddle2.height < this.canvas.height) {
-          this.paddle2.y += this.paddle2.yVel;
-        }
-        break;
-      case("ArrowUp"):
-        if (this.paddle2.y >= 0) {
-          this.paddle2.y -= this.paddle2.yVel;
-        }
-        break;
-      default:
-        break;
-    }
-
-    // AI
-    switch(true) {
-      case (this.ball.y === this.paddle1.y - this.paddle1.width/2):
-        break;
-      case(this.ball.y > this.paddle1.y + this.paddle1.height/2):
-        this.paddle1.y += this.paddle1.yVel;
-        break;
-      case(this.ball.y < this.paddle1.y + this.paddle1.height/2):
-        this.paddle1.y -= this.paddle1.yVel;
-        break;
-    }
+    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateHumanPlayer(this.canvas, this.paddle2, this.keyDown);
+    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateComputerPlayer(this.canvas, this.paddle1, this.ball);
 
     this.checkCollisions();
   }
@@ -316,6 +287,50 @@ class Ball {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Ball);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Players {
+  static animateHumanPlayer(canvas, paddle, keyDown) {
+    switch(keyDown) {
+      case("ArrowDown"):
+        if (paddle.y + paddle.height < canvas.height) {
+          paddle.y += paddle.yVel;
+        }
+        break;
+      case("ArrowUp"):
+        if (paddle.y >= 0) {
+          paddle.y -= paddle.yVel;
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  static animateComputerPlayer(canvas, paddle, ball) {
+    switch(true) {
+      case (ball.y === paddle.y - paddle.width/2):
+        break;
+      case(ball.y > paddle.y + paddle.height/2):
+        if (paddle.y + paddle.height < canvas.height) {
+          paddle.y += paddle.yVel;
+        }
+        break;
+      case(ball.y < paddle.y + paddle.height/2):
+        if (paddle.y >= 0) {
+          paddle.y -= paddle.yVel;
+        }
+        break;
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Players);
 
 
 /***/ })

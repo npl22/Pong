@@ -1,5 +1,6 @@
 import Paddle from './paddle.js';
 import Ball from './ball.js';
+import Players from './players.js';
 
 class Game {
   constructor(context, canvas) {
@@ -26,12 +27,6 @@ class Game {
         case("ArrowUp"):
           this.keyDown = "ArrowUp";
           break;
-        // case("s"):
-        //   this.paddle1.y += 80;
-        //   break;
-        // case("w"):
-        //   this.paddle1.y -= 80;
-        //   break;
         default:
           return;
       }
@@ -94,33 +89,8 @@ class Game {
     this.ball.x += this.ball.xVel;
     this.ball.y += this.ball.yVel;
 
-    // Player
-    switch(this.keyDown) {
-      case("ArrowDown"):
-        if (this.paddle2.y + this.paddle2.height < this.canvas.height) {
-          this.paddle2.y += this.paddle2.yVel;
-        }
-        break;
-      case("ArrowUp"):
-        if (this.paddle2.y >= 0) {
-          this.paddle2.y -= this.paddle2.yVel;
-        }
-        break;
-      default:
-        break;
-    }
-
-    // AI
-    switch(true) {
-      case (this.ball.y === this.paddle1.y - this.paddle1.width/2):
-        break;
-      case(this.ball.y > this.paddle1.y + this.paddle1.height/2):
-        this.paddle1.y += this.paddle1.yVel;
-        break;
-      case(this.ball.y < this.paddle1.y + this.paddle1.height/2):
-        this.paddle1.y -= this.paddle1.yVel;
-        break;
-    }
+    Players.animateHumanPlayer(this.canvas, this.paddle2, this.keyDown);
+    Players.animateComputerPlayer(this.canvas, this.paddle1, this.ball);
 
     this.checkCollisions();
   }
