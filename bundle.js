@@ -81,11 +81,9 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddleWidth = 70;
-    this.paddleHeight = 225;
-    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](10, 200, 10);
-    this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 80, 200, 10);
-    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 30, 10, 10);
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 30, 175, 7);
+    this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 40, 200, 30, 175, 6);
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 15, 8, 8);
 
     // this.paddle1.oldY = null;
     // this.paddle2.oldY = null;
@@ -122,15 +120,8 @@ class Game {
 
   drawShapes() {
     this.c.fillStyle = 'white';
-
-    this.c.fillRect(this.paddle1.x, this.paddle1.y,
-      this.paddleWidth, this.paddleHeight);
-    this.c.fillRect(this.paddle2.x, this.paddle2.y,
-      this.paddleWidth, this.paddleHeight);
-
-    this.c.beginPath();
-    this.c.arc(this.ball.x, this.ball.y, this.ball.radius, 0, 2*Math.PI, false);
-    this.c.fill();
+    const shapes = [this.paddle1, this.paddle2, this.ball];
+    shapes.forEach(shape => shape.draw(this.c));
   }
 
   checkCollisions() {
@@ -140,7 +131,8 @@ class Game {
     }
 
     // Left Paddle
-    if (this.ball.x + this.ball.radius < this.paddle1.x + this.paddleWidth*2) {
+    if (this.ball.x + this.ball.radius <
+        this.paddle1.x + this.paddle1.width*2) {
       this.paddleBounce(this.paddle1);
     }
 
@@ -152,13 +144,13 @@ class Game {
   }
 
   paddleBounce(paddle) {
-    if (this.ball.y <= paddle.y + this.paddleHeight
+    if (this.ball.y <= paddle.y + paddle.height
       && this.ball.y >= paddle.y) {
       this.ball.xVel = -this.ball.xVel;
 
-      if (this.ball.y <= paddle.y + this.paddleHeight/2
+      if (this.ball.y <= paddle.y + paddle.height/2
         && this.ball.y >= paddle.y) {
-          this.ball.yVel = this.ball.yVel;
+          this.ball.yVel = -this.ball.yVel;
       }
     }
   }
@@ -180,7 +172,7 @@ class Game {
     // Player
     switch(this.keyDown) {
       case("ArrowDown"):
-        if (this.paddle2.y + this.paddleHeight < this.canvas.height) {
+        if (this.paddle2.y + this.paddle2.height < this.canvas.height) {
           this.paddle2.y += this.paddle2.yVel;
         }
         break;
@@ -195,15 +187,13 @@ class Game {
 
     // AI
     switch(true) {
-      // case (this.ball.y === this.paddle1.y - this.paddleWidth/2):
-      //   break;
-      case(this.ball.y > this.paddle1.y + this.paddleHeight/2):
+      case (this.ball.y === this.paddle1.y - this.paddle1.width/2):
+        break;
+      case(this.ball.y > this.paddle1.y + this.paddle1.height/2):
         this.paddle1.y += this.paddle1.yVel;
         break;
-      case(this.ball.y < this.paddle1.y + this.paddleHeight/2):
+      case(this.ball.y < this.paddle1.y + this.paddle1.height/2):
         this.paddle1.y -= this.paddle1.yVel;
-        break;
-      default:
         break;
     }
 
@@ -253,14 +243,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
 "use strict";
 class Paddle {
-  constructor(x, y, yVel) {
+  constructor(x, y, width, height, yVel) {
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.yVel = yVel;
+
+    this.borderRadius = 20;
+  }
+
+  draw(ctx) {
+    const x = this.x;
+    const y = this.y;
+    const width = this.width;
+    const height = this.height;
+    const borderRadius = this.borderRadius;
+
+    ctx.beginPath();
+    ctx.moveTo(x + borderRadius, y);
+    ctx.lineTo(x + width - borderRadius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
+    ctx.lineTo(x + width, y + height - borderRadius);
+    ctx.quadraticCurveTo(x + width, y + height,
+                         x + width - borderRadius, y + height);
+    ctx.lineTo(x + borderRadius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
+    ctx.lineTo(x, y + borderRadius);
+    ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+    ctx.closePath();
+    ctx.fill();
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Paddle);
+
+
+
+// Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
+
+
+// You can do the same thing with paths, like this triangle
+// Remember that a stroke will make the shape a bit larger so you'll need to fiddle with the
+// coordinates to get the correct dimensions.
+
+//
+// this.c.fillRect(this.paddle1.x, this.paddle1.y,
+//   this.paddle1.width, this.paddle1.height);
+// this.c.fillRect(this.paddle2.x, this.paddle2.y,
+//   this.paddle1.width, this.paddle1.height);
 
 
 /***/ }),
@@ -275,6 +306,12 @@ class Ball {
     this.radius = radius;
     this.xVel = xVel;
     this.yVel = yVel;
+  }
+
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+    ctx.fill();
   }
 }
 

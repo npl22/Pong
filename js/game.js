@@ -6,11 +6,9 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddleWidth = 70;
-    this.paddleHeight = 225;
-    this.paddle1 = new Paddle(10, 200, 10);
-    this.paddle2 = new Paddle(canvas.width - 80, 200, 10);
-    this.ball = new Ball(300, 300, 30, 10, 10);
+    this.paddle1 = new Paddle(20, 200, 30, 175, 7);
+    this.paddle2 = new Paddle(canvas.width - 40, 200, 30, 175, 6);
+    this.ball = new Ball(300, 300, 15, 8, 8);
 
     // this.paddle1.oldY = null;
     // this.paddle2.oldY = null;
@@ -47,15 +45,8 @@ class Game {
 
   drawShapes() {
     this.c.fillStyle = 'white';
-
-    this.c.fillRect(this.paddle1.x, this.paddle1.y,
-      this.paddleWidth, this.paddleHeight);
-    this.c.fillRect(this.paddle2.x, this.paddle2.y,
-      this.paddleWidth, this.paddleHeight);
-
-    this.c.beginPath();
-    this.c.arc(this.ball.x, this.ball.y, this.ball.radius, 0, 2*Math.PI, false);
-    this.c.fill();
+    const shapes = [this.paddle1, this.paddle2, this.ball];
+    shapes.forEach(shape => shape.draw(this.c));
   }
 
   checkCollisions() {
@@ -65,7 +56,8 @@ class Game {
     }
 
     // Left Paddle
-    if (this.ball.x + this.ball.radius < this.paddle1.x + this.paddleWidth*2) {
+    if (this.ball.x + this.ball.radius <
+        this.paddle1.x + this.paddle1.width*2) {
       this.paddleBounce(this.paddle1);
     }
 
@@ -77,13 +69,13 @@ class Game {
   }
 
   paddleBounce(paddle) {
-    if (this.ball.y <= paddle.y + this.paddleHeight
+    if (this.ball.y <= paddle.y + paddle.height
       && this.ball.y >= paddle.y) {
       this.ball.xVel = -this.ball.xVel;
 
-      if (this.ball.y <= paddle.y + this.paddleHeight/2
+      if (this.ball.y <= paddle.y + paddle.height/2
         && this.ball.y >= paddle.y) {
-          this.ball.yVel = this.ball.yVel;
+          this.ball.yVel = -this.ball.yVel;
       }
     }
   }
@@ -105,7 +97,7 @@ class Game {
     // Player
     switch(this.keyDown) {
       case("ArrowDown"):
-        if (this.paddle2.y + this.paddleHeight < this.canvas.height) {
+        if (this.paddle2.y + this.paddle2.height < this.canvas.height) {
           this.paddle2.y += this.paddle2.yVel;
         }
         break;
@@ -120,15 +112,13 @@ class Game {
 
     // AI
     switch(true) {
-      // case (this.ball.y === this.paddle1.y - this.paddleWidth/2):
-      //   break;
-      case(this.ball.y > this.paddle1.y + this.paddleHeight/2):
+      case (this.ball.y === this.paddle1.y - this.paddle1.width/2):
+        break;
+      case(this.ball.y > this.paddle1.y + this.paddle1.height/2):
         this.paddle1.y += this.paddle1.yVel;
         break;
-      case(this.ball.y < this.paddle1.y + this.paddleHeight/2):
+      case(this.ball.y < this.paddle1.y + this.paddle1.height/2):
         this.paddle1.y -= this.paddle1.yVel;
-        break;
-      default:
         break;
     }
 
