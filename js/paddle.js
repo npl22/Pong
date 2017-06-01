@@ -1,7 +1,8 @@
 class Paddle {
-  constructor(x, y) {
+  constructor(x, y, yVel) {
     this.x = x;
     this.y = y;
+    this.yVel = yVel;
   }
 }
 
