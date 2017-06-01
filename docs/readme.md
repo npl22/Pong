@@ -19,7 +19,7 @@ opponents paddle.
 This app will be very simple, it will just be a single screen, mostly rendered
 by canvas.
 
-![wireframes](wireframe.png)
+![wireframes](docs/wireframe.png)
 
 ### Architecture and Technologies
 

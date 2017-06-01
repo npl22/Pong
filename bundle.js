@@ -87,10 +87,7 @@ class Game {
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 40, 200, 30, 175, 6);
     this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 15, 8, 8);
 
-    // this.paddle1.oldY = null;
-    // this.paddle2.oldY = null;
     this.keyDown = null;
-
     this.animate = this.animate.bind(this);
   }
 
@@ -109,7 +106,6 @@ class Game {
     });
 
     window.addEventListener('keyup', e => {
-      e.preventDefault();
       this.keyDown = null;
     });
   }
@@ -158,9 +154,6 @@ class Game {
     this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.drawShapes();
-
-    // this.paddle1.oldY = this.paddle1.y;
-    // this.paddle2.oldY = this.paddle2.y;
 
     this.ball.x += this.ball.xVel;
     this.ball.y += this.ball.yVel;
@@ -221,7 +214,7 @@ class Paddle {
     this.height = height;
     this.yVel = yVel;
 
-    this.borderRadius = 20;
+    this.borderRadius = 15;
   }
 
   draw(ctx) {
@@ -248,21 +241,6 @@ class Paddle {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Paddle);
-
-
-
-// Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-
-
-// You can do the same thing with paths, like this triangle
-// Remember that a stroke will make the shape a bit larger so you'll need to fiddle with the
-// coordinates to get the correct dimensions.
-
-//
-// this.c.fillRect(this.paddle1.x, this.paddle1.y,
-//   this.paddle1.width, this.paddle1.height);
-// this.c.fillRect(this.paddle2.x, this.paddle2.y,
-//   this.paddle1.width, this.paddle1.height);
 
 
 /***/ }),

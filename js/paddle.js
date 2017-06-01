@@ -6,7 +6,7 @@ class Paddle {
     this.height = height;
     this.yVel = yVel;
 
-    this.borderRadius = 20;
+    this.borderRadius = 15;
   }
 
   draw(ctx) {
@@ -33,18 +33,3 @@ class Paddle {
 }
 
 export default Paddle;
-
-
-
-// Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-
-
-// You can do the same thing with paths, like this triangle
-// Remember that a stroke will make the shape a bit larger so you'll need to fiddle with the
-// coordinates to get the correct dimensions.
-
-//
-// this.c.fillRect(this.paddle1.x, this.paddle1.y,
-//   this.paddle1.width, this.paddle1.height);
-// this.c.fillRect(this.paddle2.x, this.paddle2.y,
-//   this.paddle1.width, this.paddle1.height);
