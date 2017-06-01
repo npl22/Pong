@@ -7,11 +7,13 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new Paddle(20, 200, 30, 175, 7);
+    this.paddle1 = new Paddle(20, 200, 30, 175, 5);
     this.paddle2 = new Paddle(canvas.width - 40, 200, 30, 175, 6);
     this.ball = new Ball(300, 300, 15, 8, 8);
 
     this.keyDown = null;
+    this.playerScore = 0;
+    this.computerScore = 0;
     this.animate = this.animate.bind(this);
   }
 
@@ -86,6 +88,23 @@ class Game {
     Players.animateComputerPlayer(this.canvas, this.paddle1, this.ball);
 
     this.checkCollisions();
+
+    if (this.ball.x <= this.paddle1.width) {
+      this.playerScore++;
+      document.getElementById('player-score')
+        .innerHTML = `Score:${this.playerScore}`;
+      this.ball.x = 300;
+      this.ball.y = 300;
+      console.log("Player: ", this.playerScore);
+    }
+    else if (this.ball.x >= this.paddle2.x) {
+      this.computerScore++;
+      document.getElementById('computer-score')
+        .innerHTML = `Score:${this.computerScore}`;
+      this.ball.x = 300;
+      this.ball.y = 300;
+      console.log("Computer: ", this.computerScore);
+    }
   }
 
 }
