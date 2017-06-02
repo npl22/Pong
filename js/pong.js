@@ -1,15 +1,21 @@
+import Scoreboard from './scoreboard.js';
 import Game from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.querySelector('canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const ctx = canvas.getContext('2d');
+  const mainCanvas = document.getElementById('main-canvas');
+  mainCanvas.width = window.innerWidth;
+  mainCanvas.height = window.innerHeight;
+  const ctx = mainCanvas.getContext('2d');
+
+  const scoreboard = new Scoreboard();
 
   window.addEventListener('resize', handleResize);
   function handleResize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    mainCanvas.width = window.innerWidth;
+    mainCanvas.height = window.innerHeight;
+
+    // scoreboard.canvas.width = window.innerWidth;
+    // scoreboard.canvas.height = window.innerHeight;
     // const w = window.innerWidth;
     // const h = window.innerHeight;
     // const ratio = 100/100;
@@ -17,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // const scale = w/100;
   }
 
-  const g = new Game(ctx, canvas);
+  const g = new Game(ctx, mainCanvas);
   g.bindKeys();
   g.animate();
 });

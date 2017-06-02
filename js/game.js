@@ -7,9 +7,9 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new Paddle(20, 200, 30, 175, 5);
-    this.paddle2 = new Paddle(canvas.width - 40, 200, 30, 175, 6);
-    this.ball = new Ball(300, 300, 15, 8, 8);
+    this.paddle1 = new Paddle(20, 200, 15, 100, 5);
+    this.paddle2 = new Paddle(canvas.width - 22, 200, 15, 100, 6);
+    this.ball = new Ball(300, 300, 15, 6, 6);
 
     this.keyDown = null;
     this.playerScore = 0;

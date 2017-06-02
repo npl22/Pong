@@ -83,9 +83,9 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 30, 175, 5);
-    this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 40, 200, 30, 175, 6);
-    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 15, 8, 8);
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 5);
+    this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 22, 200, 15, 100, 6);
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](300, 300, 15, 6, 6);
 
     this.keyDown = null;
     this.playerScore = 0;
@@ -194,19 +194,26 @@ class Game {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scoreboard_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(0);
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.querySelector('canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const ctx = canvas.getContext('2d');
+  const mainCanvas = document.getElementById('main-canvas');
+  mainCanvas.width = window.innerWidth;
+  mainCanvas.height = window.innerHeight;
+  const ctx = mainCanvas.getContext('2d');
+
+  const scoreboard = new __WEBPACK_IMPORTED_MODULE_0__scoreboard_js__["a" /* default */]();
 
   window.addEventListener('resize', handleResize);
   function handleResize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    mainCanvas.width = window.innerWidth;
+    mainCanvas.height = window.innerHeight;
+
+    // scoreboard.canvas.width = window.innerWidth;
+    // scoreboard.canvas.height = window.innerHeight;
     // const w = window.innerWidth;
     // const h = window.innerHeight;
     // const ratio = 100/100;
@@ -214,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // const scale = w/100;
   }
 
-  const g = new __WEBPACK_IMPORTED_MODULE_0__game_js__["a" /* default */](ctx, canvas);
+  const g = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](ctx, mainCanvas);
   g.bindKeys();
   g.animate();
 });
@@ -243,19 +250,23 @@ class Paddle {
     const height = this.height;
     const borderRadius = this.borderRadius;
 
-    ctx.beginPath();
-    ctx.moveTo(x + borderRadius, y);
-    ctx.lineTo(x + width - borderRadius, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
-    ctx.lineTo(x + width, y + height - borderRadius);
-    ctx.quadraticCurveTo(x + width, y + height,
-                         x + width - borderRadius, y + height);
-    ctx.lineTo(x + borderRadius, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
-    ctx.lineTo(x, y + borderRadius);
-    ctx.quadraticCurveTo(x, y, x + borderRadius, y);
-    ctx.closePath();
-    ctx.fill();
+    // Square rectangle
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    // // Rounded rectangle
+    // ctx.beginPath();
+    // ctx.moveTo(x + borderRadius, y);
+    // ctx.lineTo(x + width - borderRadius, y);
+    // ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
+    // ctx.lineTo(x + width, y + height - borderRadius);
+    // ctx.quadraticCurveTo(x + width, y + height,
+    //                      x + width - borderRadius, y + height);
+    // ctx.lineTo(x + borderRadius, y + height);
+    // ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
+    // ctx.lineTo(x, y + borderRadius);
+    // ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+    // ctx.closePath();
+    // ctx.fill();
   }
 }
 
@@ -277,9 +288,13 @@ class Ball {
   }
 
   draw(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
-    ctx.fill();
+    // square ball
+    ctx.fillRect(this.x, this.y, this.radius, this.radius);
+
+    // // round ball
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+    // ctx.fill();
   }
 }
 
@@ -328,6 +343,35 @@ class Players {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Players);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Scoreboard{
+  constructor(){
+    this.canvas = document.getElementById('scoreboard');
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.ctx = this.canvas.getContext('2d');
+
+    this.lineWidth = 8;
+    this.drawDivider(this.ctx);
+  }
+
+  drawDivider(ctx) {
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = this.lineWidth;
+    ctx.setLineDash([20, 16]);
+    ctx.moveTo((this.canvas.width + this.lineWidth)/2, 0);
+    ctx.lineTo((this.canvas.width + this.lineWidth)/2, this.canvas.height);
+    ctx.stroke();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Scoreboard);
 
 
 /***/ })

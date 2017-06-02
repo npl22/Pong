@@ -7,7 +7,12 @@ body {
 header {
   display: flex;
   justify-content: space-between;
+  padding: 8px 5px 0 12px;
 }
 
-canvas {
+#scoreboard {
+  position: fixed;
+}
+
+#main-canvas {
 }

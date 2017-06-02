@@ -8,9 +8,13 @@ class Ball {
   }
 
   draw(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
-    ctx.fill();
+    // square ball
+    ctx.fillRect(this.x, this.y, this.radius, this.radius);
+
+    // // round ball
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+    // ctx.fill();
   }
 }
 

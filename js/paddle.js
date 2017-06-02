@@ -16,19 +16,23 @@ class Paddle {
     const height = this.height;
     const borderRadius = this.borderRadius;
 
-    ctx.beginPath();
-    ctx.moveTo(x + borderRadius, y);
-    ctx.lineTo(x + width - borderRadius, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
-    ctx.lineTo(x + width, y + height - borderRadius);
-    ctx.quadraticCurveTo(x + width, y + height,
-                         x + width - borderRadius, y + height);
-    ctx.lineTo(x + borderRadius, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
-    ctx.lineTo(x, y + borderRadius);
-    ctx.quadraticCurveTo(x, y, x + borderRadius, y);
-    ctx.closePath();
-    ctx.fill();
+    // Square rectangle
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    // // Rounded rectangle
+    // ctx.beginPath();
+    // ctx.moveTo(x + borderRadius, y);
+    // ctx.lineTo(x + width - borderRadius, y);
+    // ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
+    // ctx.lineTo(x + width, y + height - borderRadius);
+    // ctx.quadraticCurveTo(x + width, y + height,
+    //                      x + width - borderRadius, y + height);
+    // ctx.lineTo(x + borderRadius, y + height);
+    // ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
+    // ctx.lineTo(x, y + borderRadius);
+    // ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+    // ctx.closePath();
+    // ctx.fill();
   }
 }
 
