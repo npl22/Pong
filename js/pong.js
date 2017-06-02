@@ -1,4 +1,4 @@
-import Scoreboard from './scoreboard.js';
+import StaticBackground from './static-background.js';
 import Game from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mainCanvas.height = window.innerHeight - 40;
   const ctx = mainCanvas.getContext('2d');
 
-  const scoreboard = new Scoreboard();
+  const staticBackground = new StaticBackground();
 
   window.addEventListener('resize', handleResize);
   function handleResize() {

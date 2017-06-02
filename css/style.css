@@ -10,9 +10,29 @@ header {
   padding: 8px 5px 0 12px;
 }
 
-#scoreboard {
+#static-background {
   position: fixed;
 }
 
 #main-canvas {
+
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal h1 {
+  margin-top: -10%;
+  margin-bottom: 20px;
+}
+
+.modal h2 {
 }

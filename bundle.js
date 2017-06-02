@@ -83,15 +83,16 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 5);
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 3);
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 22, 200, 15, 100, 6);
-    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](this.canvas.width/2,
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](this.canvas.width/6,
                          this.canvas.height/2,
                          15, 6, 6);
 
     this.keyDown = null;
     this.playerScore = 0;
     this.computerScore = 0;
+    this.animationRequest = null;
     this.animate = this.animate.bind(this);
   }
 
@@ -121,7 +122,7 @@ class Game {
 
   checkCollisions() {
     // Right Paddle
-    if (this.ball.x + this.ball.radius >= this.paddle2.x) {
+    if (this.ball.x + this.ball.radius > this.paddle2.x) {
       this.paddleBounce(this.paddle2);
     }
     // Left Paddle
@@ -149,7 +150,7 @@ class Game {
   }
 
   animate() {
-    window.requestAnimationFrame(this.animate);
+    this.animationRequest = window.requestAnimationFrame(this.animate);
     this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.c.fillStyle = 'black';
     this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -164,17 +165,37 @@ class Game {
 
     this.checkCollisions();
 
-    if (this.ball.x <= this.paddle1.x + this.paddle1.width) {
+    if (this.ball.x <= this.paddle1.x) {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.resetBall();
+      this.ball.resetBall(this.canvas.width/6, this.canvas.height/2);
     }
     else if (this.ball.x >= this.paddle2.x) {
       this.computerScore++;
       document.getElementById('computer-score')
         .innerHTML = `Score:${this.computerScore}`;
-      this.ball.resetBall();
+      this.ball.resetBall(this.canvas.width*0.833, this.canvas.height/2);
+    }
+
+    let winMessage;
+    let staticBackground;
+    if (this.playerScore >= 1) {
+      staticBackground = document.getElementById('static-background');
+      staticBackground.parentNode.removeChild(staticBackground);
+      winMessage = document.querySelector(".modal");
+      winMessage.style.display = "flex";
+      document.querySelector('.modal h1').innerHTML = "You win!";
+      window.cancelAnimationFrame(this.animationRequest);
+    }
+
+    if (this.computerScore >= 1) {
+      staticBackground = document.getElementById('static-background');
+      staticBackground.parentNode.removeChild(staticBackground);
+      winMessage = document.querySelector(".modal");
+      winMessage.style.display = "flex";
+      document.querySelector('.modal h1').innerHTML = "Computer wins!";
+      window.cancelAnimationFrame(this.animationRequest);
     }
   }
 
@@ -189,7 +210,7 @@ class Game {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scoreboard_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_background_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(0);
 
 
@@ -200,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mainCanvas.height = window.innerHeight - 40;
   const ctx = mainCanvas.getContext('2d');
 
-  const scoreboard = new __WEBPACK_IMPORTED_MODULE_0__scoreboard_js__["a" /* default */]();
+  const staticBackground = new __WEBPACK_IMPORTED_MODULE_0__static_background_js__["a" /* default */]();
 
   window.addEventListener('resize', handleResize);
   function handleResize() {
@@ -292,10 +313,10 @@ class Ball {
     // ctx.fill();
   }
 
-  resetBall() {
+  resetBall(x, y) {
     this.xVel = -this.xVel;
-    this.x = window.innerWidth/2;
-    this.y = window.innerHeight/2;
+    this.x = x;
+    this.y = y;
   }
 }
 
@@ -347,13 +368,14 @@ class Players {
 
 
 /***/ }),
-/* 5 */
+/* 5 */,
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class Scoreboard{
+class StaticBackground{
   constructor(){
-    this.canvas = document.getElementById('scoreboard');
+    this.canvas = document.getElementById('static-background');
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx = this.canvas.getContext('2d');
@@ -372,7 +394,7 @@ class Scoreboard{
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Scoreboard);
+/* harmony default export */ __webpack_exports__["a"] = (StaticBackground);
 
 
 /***/ })

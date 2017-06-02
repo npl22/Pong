@@ -17,10 +17,10 @@ class Ball {
     // ctx.fill();
   }
 
-  resetBall() {
+  resetBall(x, y) {
     this.xVel = -this.xVel;
-    this.x = window.innerWidth/2;
-    this.y = window.innerHeight/2;
+    this.x = x;
+    this.y = y;
   }
 }
 

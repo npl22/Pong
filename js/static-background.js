@@ -1,6 +1,6 @@
-class Scoreboard{
+class StaticBackground{
   constructor(){
-    this.canvas = document.getElementById('scoreboard');
+    this.canvas = document.getElementById('static-background');
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx = this.canvas.getContext('2d');
@@ -19,4 +19,4 @@ class Scoreboard{
   }
 }
 
-export default Scoreboard;
+export default StaticBackground;
