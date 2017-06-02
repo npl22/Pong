@@ -35,4 +35,6 @@ header {
 }
 
 .modal h2 {
+  text-decoration: underline;
+  cursor: pointer;
 }

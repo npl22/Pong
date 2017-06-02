@@ -198,7 +198,6 @@ class Game {
       window.cancelAnimationFrame(this.animationRequest);
     }
   }
-
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Game);
@@ -250,25 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
   mainCanvas.height = window.innerHeight - 40;
   const ctx = mainCanvas.getContext('2d');
 
-  const staticBackground = new __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__["a" /* default */]();
-
-  window.addEventListener('resize', handleResize);
-  function handleResize() {
-    mainCanvas.width = window.innerWidth;
-    mainCanvas.height = window.innerHeight;
-
-    // scoreboard.canvas.width = window.innerWidth;
-    // scoreboard.canvas.height = window.innerHeight;
-    // const w = window.innerWidth;
-    // const h = window.innerHeight;
-    // const ratio = 100/100;
-    // const windowRatio = w/h;
-    // const scale = w/100;
-  }
-
-  const g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
+  let staticBackground = new __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__["a" /* default */]();
+  let g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
   g.bindKeys();
   g.animate();
+
+  const playAgain = document.querySelector('.modal h2');
+  playAgain.addEventListener('click', () => {
+    // staticBackground = new StaticBackground();
+    g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
+    g.animate();
+  });
 });
 
 

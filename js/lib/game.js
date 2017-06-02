@@ -122,7 +122,6 @@ class Game {
       window.cancelAnimationFrame(this.animationRequest);
     }
   }
-
 }
 
 export default Game;
