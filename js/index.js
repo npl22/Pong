@@ -1,5 +1,5 @@
-import StaticBackground from './static-background.js';
-import Game from './game.js';
+import StaticBackground from './lib/static-background.js';
+import Game from './lib/game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const mainCanvas = document.getElementById('main-canvas');

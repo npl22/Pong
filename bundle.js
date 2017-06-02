@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,9 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ball_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__players_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__players_js__ = __webpack_require__(5);
 
 
 
@@ -209,9 +209,38 @@ class Game {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class StaticBackground{
+  constructor(){
+    this.canvas = document.getElementById('static-background');
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.ctx = this.canvas.getContext('2d');
+
+    this.lineWidth = 8;
+    this.drawDivider(this.ctx);
+  }
+
+  drawDivider(ctx) {
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = this.lineWidth;
+    ctx.setLineDash([20, 16]);
+    ctx.moveTo((this.canvas.width + this.lineWidth)/2, 0);
+    ctx.lineTo((this.canvas.width + this.lineWidth)/2, this.canvas.height);
+    ctx.stroke();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (StaticBackground);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_background_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_game_js__ = __webpack_require__(0);
 
 
 
@@ -221,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mainCanvas.height = window.innerHeight - 40;
   const ctx = mainCanvas.getContext('2d');
 
-  const staticBackground = new __WEBPACK_IMPORTED_MODULE_0__static_background_js__["a" /* default */]();
+  const staticBackground = new __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__["a" /* default */]();
 
   window.addEventListener('resize', handleResize);
   function handleResize() {
@@ -237,14 +266,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // const scale = w/100;
   }
 
-  const g = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](ctx, mainCanvas);
+  const g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
   g.bindKeys();
   g.animate();
 });
 
 
 /***/ }),
-/* 2 */
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Ball {
+  constructor(x, y, radius, xVel, yVel) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.xVel = xVel;
+    this.yVel = yVel;
+  }
+
+  draw(ctx) {
+    // square ball
+    ctx.fillRect(this.x, this.y, this.radius, this.radius);
+
+    // // round ball
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+    // ctx.fill();
+  }
+
+  resetBall(x, y) {
+    this.xVel = -this.xVel;
+    this.x = x;
+    this.y = y;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Ball);
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -290,41 +353,7 @@ class Paddle {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class Ball {
-  constructor(x, y, radius, xVel, yVel) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.xVel = xVel;
-    this.yVel = yVel;
-  }
-
-  draw(ctx) {
-    // square ball
-    ctx.fillRect(this.x, this.y, this.radius, this.radius);
-
-    // // round ball
-    // ctx.beginPath();
-    // ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
-    // ctx.fill();
-  }
-
-  resetBall(x, y) {
-    this.xVel = -this.xVel;
-    this.x = x;
-    this.y = y;
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Ball);
-
-
-/***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -365,36 +394,6 @@ class Players {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Players);
-
-
-/***/ }),
-/* 5 */,
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class StaticBackground{
-  constructor(){
-    this.canvas = document.getElementById('static-background');
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx = this.canvas.getContext('2d');
-
-    this.lineWidth = 8;
-    this.drawDivider(this.ctx);
-  }
-
-  drawDivider(ctx) {
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = this.lineWidth;
-    ctx.setLineDash([20, 16]);
-    ctx.moveTo((this.canvas.width + this.lineWidth)/2, 0);
-    ctx.lineTo((this.canvas.width + this.lineWidth)/2, this.canvas.height);
-    ctx.stroke();
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (StaticBackground);
 
 
 /***/ })
