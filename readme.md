@@ -7,64 +7,61 @@
 
 [Link to game](https://npl22.github.io/pong)
 
-
-MapMyJog is full-stack web application clone of MapMyRun, using Ruby on Rails with a PostgreSQL database on the backend and React.js/Redux on the frontend. Users are able to map out the paths they have walked/run and keep track of the total distance of the planned routes.
+Classic arcade game, Pong, built as a browser game in JavaScript and HTML5 Canvas.  The AI has additional functionality compared to classic pong, movement of your paddle changes the ball's speed depending on what direction you're moving in.
 
 ## Features and implementation
 
-### Path creation
+### Gameplay
 
-The core feature of this application is utilizing Google Maps APIs to mark and render running routes.
+The core feature of this application is checking when the ball has hit a paddle and tracking score otherwise.  There is also some math involved in calculating how the ball will bounce.
 
-![Route Creation](app/assets/images/map_creation.png)
-
-
-This map utilizes 3 APIs, the core Google Maps JavaScript API, the Directions Service API, and the Google Places Web Service API. Users can add markers to the map by clicking on it, and on each click, the app will get walking directions for the current route.
-
-Some notable customizations this app uses for a smooth user experience are,
-1) Autozoom turned off
-2) Markers snap to nearest walkable path
-3) Search by location or get current location
-4) Custom markers and labels on map
-5) Cumulative distance-display for all route legs
+[![https://gyazo.com/29dfd949f659a16b0ed11ef97801728b](https://i.gyazo.com/29dfd949f659a16b0ed11ef97801728b.gif)](https://gyazo.com/29dfd949f659a16b0ed11ef97801728b)
 
 
+### Bouncing Mechanics
+
+There is some math involved in calculating the bounce of the ball. To increase difficulty, the speed of the ball increases on every bounce with a maximum cap. The direction of the bounce is influenced by the direction the paddle is moving in and also the location at which the ball hits the paddle.
 
 ```javascript
-initializeMap(initialPosition, zoom) {
-  const mapOptions = {
-    center: initialPosition,
-    zoom
-  };
-  this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  this.route = new Route(this.map, this.setState.bind(this));
-
-  this.addClickListener();
-}
-
-addClickListener() {
-  this.map.addListener('click', e => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    const waypoints = this.state.waypoints;
-    this.setState({ waypoints: [...waypoints, { location: { lat, lng } }]});
-
-    this.directions = this.route.getDirections(this.state.waypoints);
-    if (this.directions) { this.directions.setMap(null); }
-  });
+paddleBounce(ball) {
+  if (ball.y <= this.y + this.height && ball.y >= this.y) { // within bounds
+    if (Math.abs(ball.xVel) < 7) {
+      ball.xVel *= -1.25;
+    } else {
+      ball.xVel = -ball.xVel;
+    }
+    // Paddle moving up
+    if (this.y < this.oldY) {
+      if (ball.y > this.y + this.height/2) { // bottom half of paddle
+        ball.yVel = Math.abs(ball.yVel * 0.75);
+      }
+      else if (ball.y < this.y + this.height/2) { // top half of paddle
+        ball.yVel = -Math.abs(ball.yVel * 1.25);
+      }
+    }
+    // Paddle moving down
+    else if (this.y > this.oldY) {
+      if (ball.y > this.y + this.height/2) { // bottom half of paddle
+        ball.yVel = Math.abs(ball.yVel * 1.25);
+      }
+      else if (ball.y < this.y + this.height/2) { // top half of paddle
+        ball.yVel = -Math.abs(ball.yVel * 0.75);
+      }
+    }
+  }
 }
 ```
 
 ## Future Directions for the Project
 
-#### Saving Routes/My Routes Page
+#### Color Palette
 
-The next update will allow users to save routes and view them on a user profile page. This will display a thumbnail of the route and the title. Clicking on a route will show a route detail page with a blown up version of the route in addition to some other information.
+The next update will allow players to choose from multiple color palettes for their game. Upon loading, the game will cycle through the different options, and their will be a menu of clickable swatches at the bottom of the screen.
 
-#### Going on Runs
+#### Pause Button
 
-Besides mapping and saving routes, I want users to be able to record runs as well.  Users would record the specific route they ran and the time it took them to complete the route.
+Currently, the next round starts immediately, a pause button is planned to be implemented in an update
 
-#### Dashboard/Statistics
+#### Scoring Modal
 
-A great feature to have on the user profile page would be a dashboard that keeps track of a user's running statistics.  I think that the dashboard on MapMyRun and other running sites can be greatly improved.
+The score updates in the upper-left and upper-right hand corners when you when a point. This could be made more clear with a model that appears briefly when a point is won.
