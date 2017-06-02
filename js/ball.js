@@ -23,7 +23,8 @@ class Ball {
   }
 
   resetBall(x, y) {
-    this.xVel = -this.xVel;
+    this.xVel = -4;
+    this.yVel = 4;
     this.x = x;
     this.y = y;
   }

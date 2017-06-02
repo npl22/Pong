@@ -7,11 +7,11 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new Paddle(20, 200, 15, 100, 5);
+    this.paddle1 = new Paddle(20, 200, 15, 100, 4.5);
     this.paddle2 = new Paddle(canvas.width - 22, 200, 15, 100, 6);
-    this.ball = new Ball(this.canvas.width/6,
+    this.ball = new Ball(this.canvas.width/2,
                          this.canvas.height/2,
-                         15, 4.5, 4.5);
+                         15, -4, 4);
 
     this.keyDown = null;
     this.playerScore = 0;
@@ -73,12 +73,16 @@ class Game {
   checkCollisions() {
     // Right Paddle
     if (this.ball.x + this.ball.radius > this.paddle2.x) {
-      this.paddleBounce(this.paddle2);
+      this.paddle2.oldY = this.paddle2.oldY || this.paddle2.y;
+      this.paddle2.paddleBounce(this.ball);
+      this.paddle2.oldY = this.paddle2.y;
     }
     // Left Paddle
     if (this.ball.x + this.ball.radius <
         this.paddle1.x + this.paddle1.width*2) {
-      this.paddleBounce(this.paddle1);
+      this.paddle1.oldY = this.paddle1.oldY || this.paddle1.y;
+      this.paddle1.paddleBounce(this.ball);
+      this.paddle1.oldY = this.paddle1.y;
     }
     // Bouncing off walls
     if (this.ball.y + this.ball.radius >= this.canvas.height
@@ -87,30 +91,19 @@ class Game {
     }
   }
 
-  paddleBounce(paddle) {
-    if (this.ball.y <= paddle.y + paddle.height
-      && this.ball.y >= paddle.y) {
-      this.ball.xVel = -this.ball.xVel;
-
-      if (this.ball.y <= paddle.y + paddle.height/2
-        && this.ball.y >= paddle.y) {
-          this.ball.yVel = -this.ball.yVel;
-      }
-    }
-  }
-
   trackScores() {
-    if (this.ball.x <= this.paddle1.x) {
+    if (this.ball.x + this.ball.radius <
+        this.paddle1.x + this.paddle1.width) {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.resetBall(this.canvas.width/6, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
     }
-    else if (this.ball.x >= this.paddle2.x) {
+    else if (this.ball.x > this.paddle2.x) {
       this.computerScore++;
       document.getElementById('computer-score')
         .innerHTML = `Score:${this.computerScore}`;
-      this.ball.resetBall(this.canvas.width*0.833, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
     }
   }
 

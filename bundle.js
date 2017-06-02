@@ -83,11 +83,11 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 5);
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 4.5);
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 22, 200, 15, 100, 6);
-    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](this.canvas.width/6,
+    this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](this.canvas.width/2,
                          this.canvas.height/2,
-                         15, 4.5, 4.5);
+                         15, -4, 4);
 
     this.keyDown = null;
     this.playerScore = 0;
@@ -149,12 +149,16 @@ class Game {
   checkCollisions() {
     // Right Paddle
     if (this.ball.x + this.ball.radius > this.paddle2.x) {
-      this.paddleBounce(this.paddle2);
+      this.paddle2.oldY = this.paddle2.oldY || this.paddle2.y;
+      this.paddle2.paddleBounce(this.ball);
+      this.paddle2.oldY = this.paddle2.y;
     }
     // Left Paddle
     if (this.ball.x + this.ball.radius <
         this.paddle1.x + this.paddle1.width*2) {
-      this.paddleBounce(this.paddle1);
+      this.paddle1.oldY = this.paddle1.oldY || this.paddle1.y;
+      this.paddle1.paddleBounce(this.ball);
+      this.paddle1.oldY = this.paddle1.y;
     }
     // Bouncing off walls
     if (this.ball.y + this.ball.radius >= this.canvas.height
@@ -163,30 +167,19 @@ class Game {
     }
   }
 
-  paddleBounce(paddle) {
-    if (this.ball.y <= paddle.y + paddle.height
-      && this.ball.y >= paddle.y) {
-      this.ball.xVel = -this.ball.xVel;
-
-      if (this.ball.y <= paddle.y + paddle.height/2
-        && this.ball.y >= paddle.y) {
-          this.ball.yVel = -this.ball.yVel;
-      }
-    }
-  }
-
   trackScores() {
-    if (this.ball.x <= this.paddle1.x) {
+    if (this.ball.x + this.ball.radius <
+        this.paddle1.x + this.paddle1.width) {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.resetBall(this.canvas.width/6, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
     }
-    else if (this.ball.x >= this.paddle2.x) {
+    else if (this.ball.x > this.paddle2.x) {
       this.computerScore++;
       document.getElementById('computer-score')
         .innerHTML = `Score:${this.computerScore}`;
-      this.ball.resetBall(this.canvas.width*0.833, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
     }
   }
 
@@ -270,7 +263,8 @@ class Ball {
   }
 
   resetBall(x, y) {
-    this.xVel = -this.xVel;
+    this.xVel = -4;
+    this.yVel = 4;
     this.x = x;
     this.y = y;
   }
@@ -325,19 +319,42 @@ class Paddle {
     this.width = width;
     this.height = height;
     this.yVel = yVel;
-
-    this.borderRadius = 15;
   }
 
   draw(ctx) {
-    const x = this.x;
-    const y = this.y;
-    const width = this.width;
-    const height = this.height;
-    const borderRadius = this.borderRadius;
-
-    // Square rectangle
     ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  paddleBounce(ball) {
+    if (ball.y <= this.y + this.height && ball.y >= this.y) { // within bounds
+
+      console.log(ball.xVel);
+      if (Math.abs(ball.xVel) < 7) {
+        ball.xVel *= -1.25;
+      } else {
+        ball.xVel = -ball.xVel;
+      }
+
+      // Paddle moving up
+      if (this.y < this.oldY) {
+        if (ball.y > this.y + this.height/2) { // bottom half of paddle
+          ball.yVel = Math.abs(ball.yVel * 0.75);
+        }
+        else if (ball.y < this.y + this.height/2) { // top half of paddle
+          ball.yVel = -Math.abs(ball.yVel * 1.25);
+        }
+      }
+      // Paddle moving down
+      else if (this.y > this.oldY) {
+        if (ball.y > this.y + this.height/2) { // bottom half of paddle
+          ball.yVel = Math.abs(ball.yVel * 1.25);
+        }
+        else if (ball.y < this.y + this.height/2) { // top half of paddle
+          ball.yVel = -Math.abs(ball.yVel * 0.75);
+        }
+      }
+
+    }
   }
 }
 
@@ -369,8 +386,6 @@ class Players {
 
   static animateComputerPlayer(canvas, paddle, ball) {
     switch(true) {
-      case (ball.y === paddle.y - paddle.width/2):
-        break;
       case(ball.y > paddle.y + paddle.height/2):
         if (paddle.y + paddle.height < canvas.height) {
           paddle.y += paddle.yVel;
@@ -380,6 +395,8 @@ class Players {
         if (paddle.y >= 0) {
           paddle.y -= paddle.yVel;
         }
+        break;
+      default:
         break;
     }
   }

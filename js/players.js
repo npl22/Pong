@@ -18,8 +18,6 @@ class Players {
 
   static animateComputerPlayer(canvas, paddle, ball) {
     switch(true) {
-      case (ball.y === paddle.y - paddle.width/2):
-        break;
       case(ball.y > paddle.y + paddle.height/2):
         if (paddle.y + paddle.height < canvas.height) {
           paddle.y += paddle.yVel;
@@ -29,6 +27,8 @@ class Players {
         if (paddle.y >= 0) {
           paddle.y -= paddle.yVel;
         }
+        break;
+      default:
         break;
     }
   }
