@@ -1,5 +1,10 @@
-html, body, header, h1 {
+html, body, header, h1, h2, h3, h4, a, div, canvas {
   margin: 0;
   border: 0;
   padding: 0;
+}
+
+a, a:visited {
+  cursor: pointer;
+  color: blue;
 }

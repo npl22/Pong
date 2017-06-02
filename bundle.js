@@ -328,7 +328,6 @@ class Paddle {
   paddleBounce(ball) {
     if (ball.y <= this.y + this.height && ball.y >= this.y) { // within bounds
 
-      console.log(ball.xVel);
       if (Math.abs(ball.xVel) < 7) {
         ball.xVel *= -1.25;
       } else {
