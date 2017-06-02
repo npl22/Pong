@@ -9,7 +9,7 @@ class Game {
 
     this.paddle1 = new Paddle(20, 200, 15, 100, 4.5);
     this.paddle2 = new Paddle(canvas.width - 22, 200, 15, 100, 6);
-    this.ball = new Ball(this.canvas.width/2,
+    this.ball = new Ball(this.canvas.width*(5/6),
                          this.canvas.height/2,
                          15, -4, 4);
 
@@ -97,13 +97,13 @@ class Game {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width*(5/6), this.canvas.height/2);
     }
     else if (this.ball.x > this.paddle2.x) {
       this.computerScore++;
       document.getElementById('computer-score')
         .innerHTML = `Score:${this.computerScore}`;
-      this.ball.resetBall(this.canvas.width/2, this.canvas.height/2);
+      this.ball.resetBall(this.canvas.width*(5/6), this.canvas.height/2);
     }
   }
 

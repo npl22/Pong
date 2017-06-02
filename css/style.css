@@ -35,6 +35,10 @@ header {
   cursor: pointer;
 }
 
+.modal h4 {
+  margin-top: 5%;
+}
+
 .instructions-modal {
   display: flex;
   position: fixed;
