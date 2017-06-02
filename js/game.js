@@ -9,7 +9,9 @@ class Game {
 
     this.paddle1 = new Paddle(20, 200, 15, 100, 5);
     this.paddle2 = new Paddle(canvas.width - 22, 200, 15, 100, 6);
-    this.ball = new Ball(300, 300, 15, 6, 6);
+    this.ball = new Ball(this.canvas.width/2,
+                         this.canvas.height/2,
+                         15, 6, 6);
 
     this.keyDown = null;
     this.playerScore = 0;
@@ -55,7 +57,7 @@ class Game {
     }
 
     // Bouncing off walls
-    if (this.ball.y + this.ball.radius >= window.innerHeight
+    if (this.ball.y + this.ball.radius >= this.canvas.height
         || this.ball.y - this.ball.radius <= 0) {
       this.ball.yVel = -this.ball.yVel;
     }
@@ -93,8 +95,8 @@ class Game {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.x = 300;
-      this.ball.y = 300;
+      this.ball.x = this.canvas.width/2;
+      this.ball.y = this.canvas.height/2;
       console.log("Player: ", this.playerScore);
     }
     else if (this.ball.x >= this.paddle2.x) {

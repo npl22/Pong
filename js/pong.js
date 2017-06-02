@@ -4,7 +4,7 @@ import Game from './game.js';
 document.addEventListener('DOMContentLoaded', () => {
   const mainCanvas = document.getElementById('main-canvas');
   mainCanvas.width = window.innerWidth;
-  mainCanvas.height = window.innerHeight;
+  mainCanvas.height = window.innerHeight - 40;
   const ctx = mainCanvas.getContext('2d');
 
   const scoreboard = new Scoreboard();
