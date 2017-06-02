@@ -16,6 +16,12 @@ class Ball {
     // ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
     // ctx.fill();
   }
+
+  resetBall() {
+    this.xVel = -this.xVel;
+    this.x = window.innerWidth/2;
+    this.y = window.innerHeight/2;
+  }
 }
 
 export default Ball;

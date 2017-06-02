@@ -32,7 +32,6 @@ class Game {
           return;
       }
     });
-
     window.addEventListener('keyup', e => {
       this.keyDown = null;
     });
@@ -49,13 +48,11 @@ class Game {
     if (this.ball.x + this.ball.radius >= this.paddle2.x) {
       this.paddleBounce(this.paddle2);
     }
-
     // Left Paddle
     if (this.ball.x + this.ball.radius <
         this.paddle1.x + this.paddle1.width*2) {
       this.paddleBounce(this.paddle1);
     }
-
     // Bouncing off walls
     if (this.ball.y + this.ball.radius >= this.canvas.height
         || this.ball.y - this.ball.radius <= 0) {
@@ -91,21 +88,17 @@ class Game {
 
     this.checkCollisions();
 
-    if (this.ball.x <= this.paddle1.width) {
+    if (this.ball.x <= this.paddle1.x + this.paddle1.width) {
       this.playerScore++;
       document.getElementById('player-score')
         .innerHTML = `Score:${this.playerScore}`;
-      this.ball.x = this.canvas.width/2;
-      this.ball.y = this.canvas.height/2;
-      console.log("Player: ", this.playerScore);
+      this.ball.resetBall();
     }
     else if (this.ball.x >= this.paddle2.x) {
       this.computerScore++;
       document.getElementById('computer-score')
         .innerHTML = `Score:${this.computerScore}`;
-      this.ball.x = 300;
-      this.ball.y = 300;
-      console.log("Computer: ", this.computerScore);
+      this.ball.resetBall();
     }
   }
 
