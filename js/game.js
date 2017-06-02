@@ -25,9 +25,11 @@ class Game {
       switch(e.key) {
         case("ArrowDown"):
           this.keyDown = "ArrowDown";
+          $(".instructions-modal").fadeOut();
           break;
         case("ArrowUp"):
           this.keyDown = "ArrowUp";
+          $(".instructions-modal").fadeOut();
           break;
         default:
           return;
@@ -113,14 +115,14 @@ class Game {
   }
 
   displayWinMessage(winMessage, staticBackground) {
-    if (this.playerScore >= 3) {
+    if (this.playerScore >= 2) {
       document.getElementById('static-background').style.display = "none";
       winMessage = document.querySelector(".modal");
       winMessage.style.display = "flex";
       document.querySelector('.modal h1').innerHTML = "You win!";
       window.cancelAnimationFrame(this.animationRequest);
     }
-    else if (this.computerScore >= 3) {
+    else if (this.computerScore >= 2) {
       document.getElementById('static-background').style.display = "none";
       winMessage = document.querySelector(".modal");
       winMessage.style.display = "flex";
