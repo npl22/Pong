@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,7 +72,7 @@
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__paddle_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ball_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ball_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__players_js__ = __webpack_require__(5);
 
 
@@ -83,11 +83,11 @@ class Game {
     this.c = context;
     this.canvas = canvas;
 
-    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 3);
+    this.paddle1 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](20, 200, 15, 100, 5);
     this.paddle2 = new __WEBPACK_IMPORTED_MODULE_0__paddle_js__["a" /* default */](canvas.width - 22, 200, 15, 100, 6);
     this.ball = new __WEBPACK_IMPORTED_MODULE_1__ball_js__["a" /* default */](this.canvas.width/6,
                          this.canvas.height/2,
-                         15, 6, 6);
+                         15, 4.5, 4.5);
 
     this.keyDown = null;
     this.playerScore = 0;
@@ -112,6 +112,30 @@ class Game {
     window.addEventListener('keyup', e => {
       this.keyDown = null;
     });
+  }
+
+  animate() {
+    this.animationRequest = window.requestAnimationFrame(this.animate);
+    this.resetCanvas();
+    this.drawShapes();
+
+    this.ball.animate();
+    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateHumanPlayer(this.canvas, this.paddle2, this.keyDown);
+    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateComputerPlayer(this.canvas, this.paddle1, this.ball);
+
+    this.checkCollisions();
+
+    this.trackScores();
+
+    let winMessage;
+    let staticBackground;
+    this.displayWinMessage(winMessage, staticBackground);
+  }
+
+  resetCanvas() {
+    this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.c.fillStyle = 'black';
+    this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   drawShapes() {
@@ -149,22 +173,7 @@ class Game {
     }
   }
 
-  animate() {
-    this.animationRequest = window.requestAnimationFrame(this.animate);
-    this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.c.fillStyle = 'black';
-    this.c.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    this.drawShapes();
-
-    this.ball.x += this.ball.xVel;
-    this.ball.y += this.ball.yVel;
-
-    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateHumanPlayer(this.canvas, this.paddle2, this.keyDown);
-    __WEBPACK_IMPORTED_MODULE_2__players_js__["a" /* default */].animateComputerPlayer(this.canvas, this.paddle1, this.ball);
-
-    this.checkCollisions();
-
+  trackScores() {
     if (this.ball.x <= this.paddle1.x) {
       this.playerScore++;
       document.getElementById('player-score')
@@ -177,21 +186,18 @@ class Game {
         .innerHTML = `Score:${this.computerScore}`;
       this.ball.resetBall(this.canvas.width*0.833, this.canvas.height/2);
     }
+  }
 
-    let winMessage;
-    let staticBackground;
-    if (this.playerScore >= 1) {
-      staticBackground = document.getElementById('static-background');
-      staticBackground.parentNode.removeChild(staticBackground);
+  displayWinMessage(winMessage, staticBackground) {
+    if (this.playerScore >= 3) {
+      document.getElementById('static-background').style.display = "none";
       winMessage = document.querySelector(".modal");
       winMessage.style.display = "flex";
       document.querySelector('.modal h1').innerHTML = "You win!";
       window.cancelAnimationFrame(this.animationRequest);
     }
-
-    if (this.computerScore >= 1) {
-      staticBackground = document.getElementById('static-background');
-      staticBackground.parentNode.removeChild(staticBackground);
+    else if (this.computerScore >= 3) {
+      document.getElementById('static-background').style.display = "none";
       winMessage = document.querySelector(".modal");
       winMessage.style.display = "flex";
       document.querySelector('.modal h1').innerHTML = "Computer wins!";
@@ -237,37 +243,6 @@ class StaticBackground{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_game_js__ = __webpack_require__(0);
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  const mainCanvas = document.getElementById('main-canvas');
-  mainCanvas.width = window.innerWidth;
-  mainCanvas.height = window.innerHeight - 40;
-  const ctx = mainCanvas.getContext('2d');
-
-  let staticBackground = new __WEBPACK_IMPORTED_MODULE_0__lib_static_background_js__["a" /* default */]();
-  let g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
-  g.bindKeys();
-  g.animate();
-
-  const playAgain = document.querySelector('.modal h2');
-  playAgain.addEventListener('click', () => {
-    // staticBackground = new StaticBackground();
-    g = new __WEBPACK_IMPORTED_MODULE_1__lib_game_js__["a" /* default */](ctx, mainCanvas);
-    g.animate();
-  });
-});
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 class Ball {
   constructor(x, y, radius, xVel, yVel) {
     this.x = x;
@@ -287,6 +262,11 @@ class Ball {
     // ctx.fill();
   }
 
+  animate() {
+    this.x += this.xVel;
+    this.y += this.yVel;
+  }
+
   resetBall(x, y) {
     this.xVel = -this.xVel;
     this.x = x;
@@ -295,6 +275,40 @@ class Ball {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Ball);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_background_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(0);
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const mainCanvas = document.getElementById('main-canvas');
+  mainCanvas.width = window.innerWidth;
+  mainCanvas.height = window.innerHeight - 40;
+  const ctx = mainCanvas.getContext('2d');
+
+  let staticBackground = new __WEBPACK_IMPORTED_MODULE_0__static_background_js__["a" /* default */]();
+  let g = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](ctx, mainCanvas);
+  g.bindKeys();
+  g.animate();
+
+  const playAgain = document.querySelector('.modal h2');
+  playAgain.addEventListener('click', () => {
+    document.querySelector(".modal").style.display = "none";
+    document.getElementById('static-background').style.display = "block";
+
+    g = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](ctx, mainCanvas);
+    g.bindKeys();
+    g.animate();
+  });
+});
 
 
 /***/ }),
@@ -322,21 +336,6 @@ class Paddle {
 
     // Square rectangle
     ctx.fillRect(this.x, this.y, this.width, this.height);
-
-    // // Rounded rectangle
-    // ctx.beginPath();
-    // ctx.moveTo(x + borderRadius, y);
-    // ctx.lineTo(x + width - borderRadius, y);
-    // ctx.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
-    // ctx.lineTo(x + width, y + height - borderRadius);
-    // ctx.quadraticCurveTo(x + width, y + height,
-    //                      x + width - borderRadius, y + height);
-    // ctx.lineTo(x + borderRadius, y + height);
-    // ctx.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
-    // ctx.lineTo(x, y + borderRadius);
-    // ctx.quadraticCurveTo(x, y, x + borderRadius, y);
-    // ctx.closePath();
-    // ctx.fill();
   }
 }
 

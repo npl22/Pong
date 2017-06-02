@@ -1,5 +1,5 @@
-import StaticBackground from './lib/static-background.js';
-import Game from './lib/game.js';
+import StaticBackground from './static-background.js';
+import Game from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const mainCanvas = document.getElementById('main-canvas');
@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const playAgain = document.querySelector('.modal h2');
   playAgain.addEventListener('click', () => {
-    // staticBackground = new StaticBackground();
+    document.querySelector(".modal").style.display = "none";
+    document.getElementById('static-background').style.display = "block";
+
     g = new Game(ctx, mainCanvas);
+    g.bindKeys();
     g.animate();
   });
 });

@@ -17,6 +17,11 @@ class Ball {
     // ctx.fill();
   }
 
+  animate() {
+    this.x += this.xVel;
+    this.y += this.yVel;
+  }
+
   resetBall(x, y) {
     this.xVel = -this.xVel;
     this.x = x;
