@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   playAgain.addEventListener('click', () => {
     document.querySelector(".modal").style.display = "none";
     document.getElementById('static-background').style.display = "block";
-    document.querySelectorAll("header h1").innerHTML = "Score:0";
+    document.getElementById('computer-score').innerHTML = "Score:0";
+    document.getElementById('player-score').innerHTML = "Score:0";
 
     g = new Game(ctx, mainCanvas);
     g.bindKeys();
