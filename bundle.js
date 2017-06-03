@@ -299,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
   playAgain.addEventListener('click', () => {
     document.querySelector(".modal").style.display = "none";
     document.getElementById('static-background').style.display = "block";
+    document.querySelectorAll("header h1").innerHTML = "Score:0";
 
     g = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](ctx, mainCanvas);
     g.bindKeys();
@@ -328,6 +329,7 @@ class Paddle {
   paddleBounce(ball) {
     if (ball.y <= this.y + this.height && ball.y >= this.y) { // within bounds
 
+      console.log(ball.xVel);
       if (Math.abs(ball.xVel) < 7) {
         ball.xVel *= -1.25;
       } else {
