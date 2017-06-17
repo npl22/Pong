@@ -13,7 +13,7 @@ Classic arcade game, Pong, built as a browser game in JavaScript and HTML5 Canva
 
 ### Gameplay
 
-The core feature of this application is checking when the ball has hit a paddle and tracking score otherwise.  There is also some math involved in calculating how the ball will bounce.
+The core features of this application are tracking scoring and paddle/ball collisions.  There is also some math involved in calculating how the ball will bounce.
 
 [![https://gyazo.com/29dfd949f659a16b0ed11ef97801728b](https://i.gyazo.com/29dfd949f659a16b0ed11ef97801728b.gif)](https://gyazo.com/29dfd949f659a16b0ed11ef97801728b)
 
