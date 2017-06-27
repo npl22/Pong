@@ -13,14 +13,14 @@ Classic arcade game, Pong, built as a browser game in JavaScript and HTML5 Canva
 
 ### Gameplay
 
-The core features of this application are tracking scoring and paddle/ball collisions.  There is also some math involved in calculating how the ball will bounce.
+The core features of this application are tracking scoring and paddle/ball collisions. There is also some math involved in calculating the bounce mechanics.
 
 [![https://gyazo.com/29dfd949f659a16b0ed11ef97801728b](https://i.gyazo.com/29dfd949f659a16b0ed11ef97801728b.gif)](https://gyazo.com/29dfd949f659a16b0ed11ef97801728b)
 
 
 ### Bouncing Mechanics
 
-There is some math involved in calculating the bounce of the ball. To increase difficulty, the speed of the ball increases on every bounce with a maximum cap. The direction of the bounce is influenced by the direction the paddle is moving in and also the location at which the ball hits the paddle.
+To increase difficulty, the speed of the ball increases on every bounce with a maximum cap. The direction of the bounce is influenced by the direction the paddle is moving in and also the location at which the ball hits the paddle.
 
 ```javascript
 paddleBounce(ball) {
