@@ -11,7 +11,7 @@ class Game {
     this.paddle2 = new Paddle(canvas.width - 22, 200, 15, 100, 6);
     this.ball = new Ball(this.canvas.width*(5/6),
                          this.canvas.height/2,
-                         15, -4, 4);
+                         15, -6, 4);
 
     this.keyDown = null;
     this.playerScore = 0;
