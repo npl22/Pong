@@ -5,7 +5,7 @@
 * Screenshot of API tests in Postman -->
 
 
-[Link to game](https://npl22.github.io/Pong)
+[Link to game](https://npl22.github.io/pong)
 
 Classic arcade game, Pong, built as a browser game in JavaScript and HTML5 Canvas.  The AI has additional functionality compared to classic pong, movement of your paddle changes the ball's speed depending on what direction you're moving in.
 
